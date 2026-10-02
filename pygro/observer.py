@@ -37,7 +37,7 @@ class Observer:
                 raise ValueError("No Metric found, initialize one and pass it as argument to the GeodesicEngine constructor.")
         
         self.metric = metric
-        self.x = np.array(x)
+        self.x = x
                 
         check = sum(f is not None for f in [frame, coframe])
         
@@ -69,7 +69,7 @@ class Observer:
             
             self.frame_matrix = self.coframe_matrix.inv().T
     
-    def _get_frame(self, frame : list[str]):
+    def _get_frame(self, frame: list[str]):
         if len(frame) != 4:
                 raise ValueError('frame should be a 4-dimensional list of strings')
         
@@ -134,7 +134,7 @@ class Observer:
         
         return x_obs, y_obs, z_obs
     
-    def from_f1(self, theta_obs: float, phi_obs: float, type = _GEODESIC_TYPE, v: Optional[float] = None):
+    def from_f1(self, theta_obs: float, phi_obs: float, type: _GEODESIC_TYPE, v: Optional[float] = None) -> Sequence[float]:
         r'''
             Returns a 4-vector corresponding to the initial 4-velocity for a time-like or null geodesic (depending on the ``type`` argument) fired with angles ``theta_obs`` and ``phi_obs`` from the :math:`f_1` vector. See :doc:`define_observer` for an illustrative example of this functionality.
             
@@ -150,14 +150,14 @@ class Observer:
         x, y, z = self._from_frame_vector(theta_obs, phi_obs, type, v)
         return self.convert_3vector([x, y, z], type)
     
-    def from_f2(self,  theta_obs: float, phi_obs: float, type = _GEODESIC_TYPE, v: Optional[float] = None):
+    def from_f2(self, theta_obs: float, phi_obs: float, type: _GEODESIC_TYPE, v: Optional[float] = None) -> Sequence[float]:
         r'''
             As :py:meth:`~.pygro.observer.Observer.from_f1` method, but for the vector :math:`f_2`.
         '''
         x, y, z = self._from_frame_vector(theta_obs, phi_obs, type, v)
         return self.convert_3vector([z, x, y], type)
     
-    def from_f3(self,  theta_obs: float, phi_obs: float, type = _GEODESIC_TYPE, v: Optional[float] = None):
+    def from_f3(self, theta_obs: float, phi_obs: float, type: _GEODESIC_TYPE, v: Optional[float] = None) -> Sequence[float]:
         r'''
             As :py:meth:`~.pygro.observer.Observer.from_f1` method, but for the vector :math:`f_3`.
         '''
